@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddShareActivity"
+    tools:context=".view.AddShareActivity"
     android:background="@color/main">
 
     <ImageButton
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
-            android:id="@+id/ticker"
+            android:id="@+id/portfolioName"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_marginStart="60dp"
@@ -49,7 +49,7 @@
             android:text="Тикер акции"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/ticker"
+            app:layout_constraintBottom_toTopOf="@+id/portfolioName"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

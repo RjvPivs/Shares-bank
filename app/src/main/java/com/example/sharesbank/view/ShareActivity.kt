@@ -1,7 +1,8 @@
-package com.example.sharesbank
+package com.example.sharesbank.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.sharesbank.R
 
 class ShareActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
