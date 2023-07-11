@@ -29,9 +29,22 @@ class AddPortfolioActivity : AppCompatActivity() {
         else {
             var portfolio: Portfolio = Portfolio()
             portfolio.name = portfolioName.text.toString()
-            runBlocking { launch { repository.insertPortfolio(portfolio) } }
-            val infoActivity = Intent(this@AddPortfolioActivity, PortfolioActivity::class.java)
-            startActivity(infoActivity)
+            runBlocking {
+                launch {
+                    if (repository.getPortfolio(portfolio.name)==null){
+                        repository.insertPortfolio(portfolio)
+                        val infoActivity = Intent(this@AddPortfolioActivity, PortfolioActivity::class.java)
+                        startActivity(infoActivity)
+                    }
+                    else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Такой портфель уже существует!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         }
     }
 }

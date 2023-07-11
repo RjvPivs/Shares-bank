@@ -11,6 +11,8 @@ import com.example.sharesbank.data.DatabaseModule
 import com.example.sharesbank.data.MongoRepository
 import com.example.sharesbank.databinding.ActivityPortfolioBinding
 import com.example.sharesbank.model.Portfolio
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class PortfolioActivity : AppCompatActivity(), PortfolioAdapter.Listener {
     private lateinit var binding: ActivityPortfolioBinding
@@ -36,11 +38,14 @@ class PortfolioActivity : AppCompatActivity(), PortfolioAdapter.Listener {
         }
     }
 
-    override fun onClickMove(pdfData: Portfolio) {
-        TODO("Not yet implemented")
+    override fun onClickMove(portfolio: Portfolio) {
+        val infoActivity = Intent(this@PortfolioActivity, ShareActivity::class.java)
+        infoActivity.putExtra("portfolio", portfolio.name)
+        startActivity(infoActivity)
     }
 
-    override fun onClickDel(pdf: Portfolio) {
-        TODO("Not yet implemented")
+    override fun onClickDel(portfolio: Portfolio) {
+        adapter.delete(portfolio)
+        runBlocking { launch { repository.deletePortfolio(portfolio.name) } }
     }
 }

@@ -18,6 +18,7 @@
         app:srcCompat="@drawable/button_settings" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/portfolioLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"

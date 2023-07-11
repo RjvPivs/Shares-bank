@@ -7,7 +7,7 @@ import io.realm.kotlin.types.annotations.Index
 import io.realm.kotlin.types.annotations.PrimaryKey
 import org.mongodb.kbson.ObjectId
 
-class Portfolio() : RealmObject {
+class Portfolio() : RealmObject{
     @Index
     @PrimaryKey
     var name: String = ""

@@ -18,12 +18,12 @@ class PortfolioAdapter(val listener: Listener):RecyclerView.Adapter<PortfolioAda
             portfolioNameRC.text = portfolio.name
             portfolioNumberRC.text = portfolio.number.toString()
             //binding.imageView2.setIma
-            itemView.setOnClickListener {
+            settingsPortfolio.setOnClickListener{
+                listener.onClickDel(portfolio)
+            }
+            portfolioLayout.setOnClickListener{
                 listener.onClickMove(portfolio)
             }
-            //imageDelete.setOnClickListener{
-              //  listener.onClickDel(portfolio)
-            //}
         }
     }
 
@@ -33,8 +33,8 @@ class PortfolioAdapter(val listener: Listener):RecyclerView.Adapter<PortfolioAda
     }
 
     interface Listener{
-        fun onClickMove(pdfData : Portfolio)
-        fun onClickDel(pdf: Portfolio)
+        fun onClickMove(portfolio : Portfolio)
+        fun onClickDel(portfolio: Portfolio)
     }
 
     override fun getItemCount(): Int {
