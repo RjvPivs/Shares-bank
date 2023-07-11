@@ -10,4 +10,5 @@ class Share : RealmObject {
     @PrimaryKey
     var name: String = ""
     var price: Double = 0.0
+    var number: Int = 0
 }

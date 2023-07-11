@@ -20,7 +20,7 @@ class AddPortfolioActivity : AppCompatActivity() {
     }
 
     fun savePortfolio(view: View) {
-        var portfolioName: EditText = findViewById(R.id.portfolioName)
+        var portfolioName: EditText = findViewById(R.id.ticker)
         if (portfolioName.text.isEmpty()) Toast.makeText(
             applicationContext,
             "Введите название портфеля",

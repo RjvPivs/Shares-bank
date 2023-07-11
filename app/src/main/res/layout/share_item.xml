@@ -20,7 +20,7 @@
         app:srcCompat="@drawable/apple" />
 
     <ImageView
-        android:id="@+id/imageButton"
+        android:id="@+id/shareSettings"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="15dp"
@@ -31,6 +31,7 @@
         app:srcCompat="@drawable/button_settings" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/shareConstraint"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="10dp"
@@ -38,14 +39,14 @@
         android:layout_marginEnd="10dp"
         android:background="@drawable/round_black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/shareSettings"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageFile"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/shareName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -57,7 +58,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/shareNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -66,10 +67,10 @@
             android:textColor="@color/white"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/shareName" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/sharePrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -81,7 +82,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/shareChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
@@ -90,7 +91,7 @@
             android:textColor="@color/orange"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintTop_toBottomOf="@+id/sharePrice" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

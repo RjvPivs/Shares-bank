@@ -6,14 +6,19 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.mongodb.kbson.ObjectId
 
 class MongoRepositoryImpl(val realm: Realm) : MongoRepository {
     override fun getPortfolios(): Flow<List<Portfolio>> {
         return realm.query<Portfolio>().asFlow().map { it.list }
     }
-    override suspend fun insertShare(share: Share) {
-        realm.write { copyToRealm(share) }
+
+    override suspend fun insertShare(share: Share, portfolio: Portfolio) {
+        realm.write {
+            val query = query<Portfolio>(query = "name == $0", portfolio.name).first().find()
+            if (query != null) {
+                query.shares.add(share)
+            }
+        }
     }
 
     override suspend fun insertPortfolio(portfolio: Portfolio) {
@@ -31,7 +36,16 @@ class MongoRepositoryImpl(val realm: Realm) : MongoRepository {
         }
     }
 
-    override suspend fun getPortfolio(name: String) : Portfolio? {
+    override suspend fun getPortfolio(name: String): Portfolio? {
         return realm.query<Portfolio>(query = "name = $0", name).first().find()
+    }
+
+    override suspend fun updatePortfolio(portfolio: Portfolio) {
+        realm.write {
+            val query = query<Portfolio>(query = "name == $0", portfolio.name).first().find()
+            if (query != null) {
+                query.shares = portfolio.shares
+            }
+        }
     }
 }

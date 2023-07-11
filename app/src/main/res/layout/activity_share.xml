@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/addShare"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginEnd="10dp"
@@ -36,7 +36,7 @@
             android:layout_marginEnd="10dp"
             android:background="@drawable/round_black"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton4"
+            app:layout_constraintEnd_toStartOf="@+id/addShare"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -65,6 +65,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcShare"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="25dp"
