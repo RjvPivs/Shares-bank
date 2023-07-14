@@ -12,11 +12,28 @@ class MongoRepositoryImpl(val realm: Realm) : MongoRepository {
         return realm.query<Portfolio>().asFlow().map { it.list }
     }
 
+    override suspend fun getShare(share: Share): Share? {
+        return realm.query<Share>(query = "name = $0", share.name).first().find()
+    }
+
     override suspend fun insertShare(share: Share, portfolio: Portfolio) {
         realm.write {
             val query = query<Portfolio>(query = "name == $0", portfolio.name).first().find()
-            if (query != null) {
-                query.shares.add(share)
+            query?.shares?.add(share)
+        }
+    }
+
+    override suspend fun deleteShare(share: Share, portfolio: Portfolio) {
+        realm.write {
+            val query = query<Portfolio>(query = "name == $0", portfolio.name).first().find()
+            val query1 = query<Share>(query = "name == $0", share.name).first().find()
+            query?.shares?.remove(share)
+            try {
+                if (query1 != null) {
+                    delete(query1)
+                }
+            } catch (_: Exception) {
+
             }
         }
     }

@@ -6,10 +6,12 @@ import kotlinx.coroutines.flow.Flow
 
 interface MongoRepository {
     fun getPortfolios(): Flow<List<Portfolio>>
+
+    suspend fun getShare(share: Share) : Share?
     suspend fun insertShare(share: Share, portfolio: Portfolio)
     suspend fun insertPortfolio(portfolio: Portfolio)
     suspend fun deletePortfolio(name: String)
-    suspend fun getPortfolio(name: String) : Portfolio?
-
+    suspend fun getPortfolio(name: String): Portfolio?
+    suspend fun deleteShare(share: Share, portfolio: Portfolio)
     suspend fun updatePortfolio(portfolio: Portfolio)
 }

@@ -8,10 +8,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.asLiveData
 import com.example.sharesbank.R
+import com.example.sharesbank.adapter.Web
 import com.example.sharesbank.data.DatabaseModule
 import com.example.sharesbank.model.Portfolio
 import com.example.sharesbank.model.Share
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.runBlocking
 
 class AddShareActivity : AppCompatActivity() {
@@ -55,24 +58,38 @@ class AddShareActivity : AppCompatActivity() {
             else -> run {
                 var share: Share = Share()
                 share.name = ticker.text.toString()
-                share.number = number.text.toString().toInt()
-                share.price = price.text.toString().toDouble()
-                runBlocking {
-                    launch {
-                        val portfolio =
-                            intent.getStringExtra("portfolio")
-                                ?.let { repository.getPortfolio(it) }
-                        if (portfolio != null) {
-                            repository.insertShare(share, portfolio)
-                        }
-                        //portfolio?.shares?.size?.let { Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show() }
-                    }
-                }
+                share.number += number.text.toString().toInt()
+                share.totalCost += price.text.toString().toDouble()
                 val infoActivity = Intent(this, ShareActivity::class.java)
-                infoActivity.putExtra("portfolio", intent.getStringExtra("portfolio"))
-                startActivity(infoActivity)
+                Thread {
+                    share.actualPrice = Web.getSharePrice(share.name)
+                    runOnUiThread {
+                        runBlocking {
+                            launch {
+                                if (repository.getShare(share) == null) {
+                                    val portfolio =
+                                        intent.getStringExtra("portfolio")
+                                            ?.let { repository.getPortfolio(it) }
+                                    if (portfolio != null) {
+                                        repository.insertShare(share, portfolio)
+                                    }
+                                    infoActivity.putExtra(
+                                        "portfolio",
+                                        intent.getStringExtra("portfolio")
+                                    )
+                                    startActivity(infoActivity)
+                                } else {
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "Такая акция уже добавлена!",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
+                    }
+                }.start()
             }
-
         }
     }
 }
