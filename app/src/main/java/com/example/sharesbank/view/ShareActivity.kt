@@ -14,18 +14,22 @@ import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.sharesbank.R
 import com.example.sharesbank.adapter.SharesAdapter
 import com.example.sharesbank.adapter.SwipeToDeleteCallback
+import com.example.sharesbank.adapter.Web
 import com.example.sharesbank.data.DatabaseModule
 import com.example.sharesbank.databinding.ActivityShareBinding
 import com.example.sharesbank.model.Portfolio
 import com.example.sharesbank.model.Share
+import io.realm.kotlin.ext.copyFromRealm
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormat
 
 class ShareActivity : AppCompatActivity(), SharesAdapter.Listener {
+    var start: Long = 0
     lateinit var dialog: Dialog
     private lateinit var portfolio: Portfolio
     var profit: Double = 0.0
@@ -43,7 +47,7 @@ class ShareActivity : AppCompatActivity(), SharesAdapter.Listener {
             launch {
                 portfolio =
                     intent.getStringExtra("portfolio")?.let { repository.getPortfolio(it) }!!
-                portfolio.shares.asFlow()?.asLiveData()?.observe(this@ShareActivity) { it ->
+                portfolio.shares.asFlow().asLiveData().observe(this@ShareActivity) { it ->
                     adapter.clear()
                     profit = 0.0
                     it.list.forEach {
@@ -56,6 +60,7 @@ class ShareActivity : AppCompatActivity(), SharesAdapter.Listener {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun init() = with(binding) {
         rcShare.layoutManager = GridLayoutManager(this@ShareActivity, 1)
         rcShare.adapter = adapter
@@ -73,6 +78,16 @@ class ShareActivity : AppCompatActivity(), SharesAdapter.Listener {
             infoActivity.putExtra("portfolio", intent.getStringExtra("portfolio"))
             startActivity(infoActivity)
         }
+        var swipeRefresh: SwipeRefreshLayout = findViewById(R.id.swipeRefresh)
+        swipeRefresh.setOnRefreshListener {
+            if ((System.nanoTime() - start) / (1000000000) >= 60) {
+                start = System.nanoTime()
+                adapter.updatePrices(portfolio)
+                adapter.notifyDataSetChanged()
+                updateProfit()
+            }
+            swipeRefresh.isRefreshing = false
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -84,14 +99,15 @@ class ShareActivity : AppCompatActivity(), SharesAdapter.Listener {
         shareProfit.text = "Доходность: $temp${df.format(profit)} $"
     }
 
-    fun showDialog(share: Share) {
+    private fun showDialog(share: Share) {
         dialog.setContentView(R.layout.activity_edit_share)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         var saveButton: ImageButton = dialog.findViewById(R.id.saveEditedShare)
         var newNumber: EditText = dialog.findViewById(R.id.addNumberEdited)
         var newPrice: EditText = dialog.findViewById(R.id.sharesPriceEdited)
         saveButton.setOnClickListener {
-            var newShare: Share = Share()
+            var newShare = Share()
+            newShare.actualPrice = share.actualPrice
             newShare.name = share.name
             newShare.number = share.number + newNumber.text.toString().toInt()
             newShare.totalCost = share.totalCost + newPrice.text.toString().toDouble()
@@ -118,6 +134,7 @@ class ShareActivity : AppCompatActivity(), SharesAdapter.Listener {
 
     override fun onBackPressed() {
         val mainActivity = Intent(this, PortfolioActivity::class.java)
+        mainActivity.putExtra("status", false)
         startActivity(mainActivity)
     }
 }

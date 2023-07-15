@@ -34,6 +34,7 @@ class AddPortfolioActivity : AppCompatActivity() {
                     if (repository.getPortfolio(portfolio.name)==null){
                         repository.insertPortfolio(portfolio)
                         val infoActivity = Intent(this@AddPortfolioActivity, PortfolioActivity::class.java)
+                        infoActivity.putExtra("status", false)
                         startActivity(infoActivity)
                     }
                     else {

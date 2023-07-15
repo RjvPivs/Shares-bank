@@ -6,74 +6,50 @@
     android:layout_height="wrap_content"
     android:background="@color/main">
 
-    <EditText
-        android:id="@+id/addNumberEdited"
+
+    <ImageButton
+        android:id="@+id/saveEditedPortfolio"
         android:layout_width="330dp"
         android:layout_height="55dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/round_white"
-        android:gravity="center|left"
-        android:padding="10dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:srcCompat="@drawable/bigplus" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textView66"
         android:layout_width="330dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="30dp"
-        android:text="Сколько акций добавим?"
+        android:text="Новое название портфеля?"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/saveEditedShare"
-        android:layout_width="330dp"
-        android:layout_height="55dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sharesPriceEdited"
-        app:srcCompat="@drawable/bigplus" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="330dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:text="По какой цене?"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addNumberEdited" />
+    " />
 
     <EditText
-        android:id="@+id/sharesPriceEdited"
+        android:id="@+id/editedName"
         android:layout_width="330dp"
         android:layout_height="55dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/round_white"
         android:gravity="center|left"
+        android:hint="Например Основной"
         android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/saveEditedPortfolio"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView66" />
 </androidx.constraintlayout.widget.ConstraintLayout>

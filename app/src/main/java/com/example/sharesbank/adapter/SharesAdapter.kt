@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sharesbank.R
+import com.example.sharesbank.data.DatabaseModule
 import com.example.sharesbank.databinding.ShareItemBinding
+import com.example.sharesbank.model.Portfolio
 import com.example.sharesbank.model.Share
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
@@ -57,7 +61,7 @@ class SharesAdapter(val listener: Listener) : RecyclerView.Adapter<SharesAdapter
         sharesList.clear()
     }
 
-    fun deleteAt(position: Int) : Share {
+    fun deleteAt(position: Int): Share {
         var share = sharesList[position]
         sharesList.removeAt(position)
         return share
@@ -65,6 +69,10 @@ class SharesAdapter(val listener: Listener) : RecyclerView.Adapter<SharesAdapter
 
     override fun onBindViewHolder(holder: SharesHolder, position: Int) {
         holder.bind(sharesList[position], listener)
+    }
+
+    fun updatePrices(portfolio: Portfolio) {
+        runBlocking { launch { sharesList.forEach { Web.getSharePriceAsync(it, portfolio) } } }
     }
 
     @SuppressLint("NotifyDataSetChanged")

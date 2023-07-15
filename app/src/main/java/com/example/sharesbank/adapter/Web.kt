@@ -2,8 +2,10 @@ package com.example.sharesbank.adapter
 
 import com.crazzyghost.alphavantage.AlphaVantage
 import com.crazzyghost.alphavantage.Config
-import com.crazzyghost.alphavantage.exchangerate.ExchangeRateResponse
 import com.crazzyghost.alphavantage.timeseries.response.QuoteResponse
+import com.example.sharesbank.data.DatabaseModule
+import com.example.sharesbank.model.Portfolio
+import com.example.sharesbank.model.Share
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -25,5 +27,28 @@ class Web {
             return response.price
         }
 
+        fun getSharePriceAsync(share: Share, portfolio: Portfolio) {
+            AlphaVantage.api().init(cfg);
+            AlphaVantage.api()
+                .timeSeries()
+                .quote()
+                .forSymbol(share.name).onSuccess { e -> update(e, share, portfolio) }
+                .fetch()
+        }
+
+        private fun update(e: Any, share: Share, portfolio: Portfolio) {
+            var response: QuoteResponse = e as QuoteResponse
+            var shareNew = Share()
+            shareNew.name = share.name
+            shareNew.number = share.number
+            shareNew.totalCost = share.totalCost
+            shareNew.actualPrice = response.price
+            runBlocking {
+                launch {
+                    DatabaseModule.provideMongoRepository(DatabaseModule.provideRealm())
+                        .updateShare(shareNew, portfolio)
+                }
+            }
+        }
     }
 }
