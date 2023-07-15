@@ -65,4 +65,17 @@ class MongoRepositoryImpl(val realm: Realm) : MongoRepository {
             }
         }
     }
+
+    override suspend fun updateShare(share: Share, portfolio: Portfolio) {
+        realm.write {
+            val query = query<Portfolio>(query = "name == $0", portfolio.name).first().find()
+            if (query != null) {
+                query.shares.find { it.name == share.name }!!.number = share.number
+                query.shares.find { it.name == share.name }!!.totalCost = share.totalCost
+            }
+            val query1 = query<Share>(query = "name == $0", share.name).first().find()
+            query1!!.number = share.number
+            query1.totalCost = share.totalCost
+        }
+    }
 }

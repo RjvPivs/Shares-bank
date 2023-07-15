@@ -14,4 +14,6 @@ interface MongoRepository {
     suspend fun getPortfolio(name: String): Portfolio?
     suspend fun deleteShare(share: Share, portfolio: Portfolio)
     suspend fun updatePortfolio(portfolio: Portfolio)
+
+    suspend fun updateShare(share: Share, portfolio: Portfolio)
 }

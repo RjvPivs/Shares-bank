@@ -16,17 +16,13 @@ class Web {
             .build()
 
         fun getSharePrice(share: String): Double {
-
             AlphaVantage.api().init(cfg);
             val response = AlphaVantage.api()
                 .timeSeries()
                 .quote()
                 .forSymbol(share)
                 .fetchSync()
-            val rate =
-                AlphaVantage.api().exchangeRate().fromCurrency("USD").toCurrency("RUB")
-                    .fetchSync()
-            return response.price * rate.exchangeRate
+            return response.price
         }
 
     }

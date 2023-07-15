@@ -23,15 +23,15 @@ class SharesAdapter(val listener: Listener) : RecyclerView.Adapter<SharesAdapter
             val df = DecimalFormat("#.#")
             shareName.text = share.name
             shareNumber.text =
-                share.number.toString() + " шт по " + df.format(share.getAveragePrice()) + " ₽"
-            sharePrice.text = String.format("%.1f ₽", share.actualPrice)
+                share.number.toString() + " шт по " + df.format(share.getAveragePrice()) + " $"
+            sharePrice.text = String.format("%.1f $", share.actualPrice)
             var temp: String = ""
             if (share.actualPrice / share.getAveragePrice() - 1 > 0) temp = "+"
             shareChange.text = temp +
                     (df.format(
                         (share.actualPrice / share.getAveragePrice() - 1) * 100
                     )
-                            ).toString() + " % (" + (share.actualPrice - share.getAveragePrice()).roundToInt() + " ₽)"
+                            ).toString() + " % (" + (share.actualPrice - share.getAveragePrice()).roundToInt() + " $)"
 
             shareSettings.setOnClickListener {
                 listener.onClickDel(share)
@@ -55,6 +55,12 @@ class SharesAdapter(val listener: Listener) : RecyclerView.Adapter<SharesAdapter
 
     fun clear() {
         sharesList.clear()
+    }
+
+    fun deleteAt(position: Int) : Share {
+        var share = sharesList[position]
+        sharesList.removeAt(position)
+        return share
     }
 
     override fun onBindViewHolder(holder: SharesHolder, position: Int) {
