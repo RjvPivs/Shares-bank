@@ -25,4 +25,5 @@
 
 Свайпните вправо, чтобы удалить акцию
 
-![image](https://github.com/RjvPivs/Shares-bank/assets/74093174/d9e677bf-eca0-46f2-9a93-25142329bc5a)
+![Screen_Recording_20230715_203343_Shares_Bank_1_1](https://github.com/RjvPivs/Shares-bank/assets/74093174/4b3b2dd6-57be-4303-a55c-e23804c5ba0e)
+
