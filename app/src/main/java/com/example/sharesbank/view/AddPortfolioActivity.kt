@@ -31,13 +31,13 @@ class AddPortfolioActivity : AppCompatActivity() {
             portfolio.name = portfolioName.text.toString()
             runBlocking {
                 launch {
-                    if (repository.getPortfolio(portfolio.name)==null){
+                    if (repository.getPortfolio(portfolio.name) == null) {
                         repository.insertPortfolio(portfolio)
-                        val infoActivity = Intent(this@AddPortfolioActivity, PortfolioActivity::class.java)
-                        infoActivity.putExtra("status", false)
+                        val infoActivity =
+                            Intent(this@AddPortfolioActivity, AddShareActivity::class.java)
+                        infoActivity.putExtra("portfolio", portfolio.name)
                         startActivity(infoActivity)
-                    }
-                    else {
+                    } else {
                         Toast.makeText(
                             applicationContext,
                             "Такой портфель уже существует!",
